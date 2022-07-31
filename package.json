@@ -1,0 +1,38 @@
+{
+  "name": "homebridge-bme680",
+  "version": "1.2.6",
+  "description": "BME680 temperature/humidity/pressure sensor bridge for Homebridge: https://github.com/nfarina/homebridge\"",
+  "main": "sensor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/NorthernMan54/homebridge-bme280.git"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "bme680",
+    "temperature",
+    "humidity",
+    "pressure",
+    "sensor"
+  ],
+  "author": "rxserger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NorthernMan54/homebridge-bme280/issues"
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "homebridge": ">=0.2.0"
+  },
+  "homepage": "https://github.com/NorthernMan54/homebridge-bme280#readme",
+  "dependencies": {
+    "bme680-sensor": "^1.1.0",
+    "debug": ">2.2.0",
+    "fakegato-history": ">0.4.0",
+    "mcuiot-logger": ">0.0.7",
+    "moment": ">2.18.1"
+  }
+}
