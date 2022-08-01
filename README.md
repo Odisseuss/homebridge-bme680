@@ -6,9 +6,11 @@
 temperature/humidity/VOC/barometric pressure sensor service plugin for [Homebridge](https://github.com/nfarina/homebridge).
 
 
-* Display of temperature and humidity from a BME680 connected to a RaspberryPI.
+* Display of temperature, humidity and air quality score from a BME680 connected to a RaspberryPI.
 
 Uses [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
+
+Uses the algorithm used by pimoroni in their [bme680-sensor-air-quality-example](https://github.com/pimoroni/bme680-python/blob/master/examples/indoor-air-quality.py) to compute the air quality score
 
 ## Installation
 1.	Install Homebridge using `npm install -g homebridge`
@@ -24,6 +26,7 @@ Enable I2C on the RaspberryPI by going to the RaspberryPI's `RaspberryPi Configu
 * `name`: descriptive name
 * `name_temperature` (optional): descriptive name for the temperature sensor
 * `name_humidity` (optional): descriptive name for the humidity sensor
+* `name_air_quality` (optional): descriptive name for the air quality sensor
 * `refresh`: Optional, time interval for refreshing data in seconds, defaults to 60 seconds.
 * `options`: options for [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
 
@@ -55,8 +58,7 @@ This plugin creates two services: TemperatureSensor and HumiditySensor.
 * [homebridge-dht](https://www.npmjs.com/package/homebridge-dht)
 
 ## Future plans
-- Add support for pressure sensor (this is already somewhat supported, but you can't see it in the Home app). Will try to get the Home+ 5 app which supposedly supports both VOC and Pressure sensor displays
-- Add support for VOC sensor
+- Add support for pressure sensor (this is already somewhat supported, but you can't see it in the Home app). Will try to get the Home+ 5 app which supposedly Pressure sensor displays
 
 ## License
 
