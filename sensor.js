@@ -114,7 +114,7 @@ class BME680Plugin {
             const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
             this.log(`airQuality = ${airQuality}`);
             this.airQualityService.setCharacteristic(Characteristic.AirQuality, airQuality);
-            this.airQualityService.setCharacteristic(Characteristic.VOCDensity, roundInt(data.data.gas_resistance / 1000));
+            this.airQualityService.setCharacteristic(Characteristic.VOCDensity, clamp(roundInt(data.data.gas_resistance / 100)), 0, 1000);
           }
         })
         .catch(err => {
@@ -158,4 +158,8 @@ function computeIAQ(gas, humidity) {
     gasScore = 100 - (humidityWeight * 100);
   }
   return (humidityScore + gasScore) / 20;
+}
+
+function clamp(num, min, max) {
+  return Math.min(Math.max(num, min), max);
 }
