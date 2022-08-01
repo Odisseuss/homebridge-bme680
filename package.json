@@ -1,6 +1,6 @@
 {
   "name": "homebridge-bme680",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "BME680 temperature/humidity/pressure sensor bridge for Homebridge: https://github.com/nfarina/homebridge\"",
   "main": "sensor.js",
   "scripts": {
