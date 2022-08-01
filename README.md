@@ -1,4 +1,4 @@
-# homebridge-bme280
+# homebridge-bme680
 
 [![NPM Downloads](https://img.shields.io/npm/dm/homebridge-bme680.svg?style=flat)](https://npmjs.org/package/homebridge-bme680)
 
