@@ -114,7 +114,8 @@ class BME680Plugin {
             const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
             this.log(`airQuality = ${airQuality}`);
             this.airQualityService.setCharacteristic(Characteristic.AirQuality, airQuality);
-            this.airQualityService.setCharacteristic(Characteristic.VOCDensity, clamp(Math.round(data.data.gas_resistance / 100)), 0, 1000);
+            this.log(`gas resistance = ${data.data.gas_resistance}`)
+            this.airQualityService.setCharacteristic(Characteristic.VOCDensity, clamp(Math.round(parseInt(data.data.gas_resistance) / 100)), 0, 1000);
           }
         })
         .catch(err => {
