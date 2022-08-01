@@ -157,7 +157,7 @@ function computeIAQ(gas, humidity) {
   }else{
     gasScore = 100 - (humidityWeight * 100);
   }
-  return (humidityScore + gasScore) / 20;
+  return roundInt((humidityScore + gasScore) / 20);
 }
 
 function clamp(num, min, max) {
