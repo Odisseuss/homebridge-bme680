@@ -26,14 +26,10 @@ class BME680Plugin {
     this.name = config.name;
     this.name_temperature = config.name_temperature || this.name;
     this.name_humidity = config.name_humidity || this.name;
+    this.name_air_quality = config.name_air_quality || this.name;
     this.refresh = config['refresh'] || 60; // Update every minute
     this.options = config.options || {};
     this.storage = config['storage'] || "fs";
-    this.spreadsheetId = config['spreadsheetId'];
-    if (this.spreadsheetId) {
-      this.log_event_counter = 59;
-      this.logger = new logger(this.spreadsheetId);
-    }
 
     this.init = false;
     this.data = {};
@@ -81,6 +77,8 @@ class BME680Plugin {
 
     this.humidityService = new Service.HumiditySensor(this.name_humidity);
 
+    this.airQualityService = new Service.AirQualitySensor(this.name_air_quality);
+
     setInterval(this.devicePolling.bind(this), this.refresh * 1000);
 
     this.temperatureService.log = this.log;
@@ -96,30 +94,32 @@ class BME680Plugin {
     if (this.sensor) {
       this.sensor.getSensorData()
         .then(data => {
-          this.log(`data(temp) = ${JSON.stringify(data, null, 2)}`);
+          if(data.data.heat_stable){
+            this.log(`data(temp) = ${JSON.stringify(data, null, 2)}`);
 
-          this.loggingService.addEntry({
-            time: moment().unix(),
-            temp: roundInt(data.data.temperature),
-            pressure: roundInt(data.data.pressure),
-            humidity: roundInt(data.data.humidity)
-          });
+            this.loggingService.addEntry({
+              time: moment().unix(),
+              temp: roundInt(data.data.temperature),
+              pressure: roundInt(data.data.pressure),
+              humidity: roundInt(data.data.humidity),
+              airQuality: roundInt(data.data.gas_resistance)
+            });
 
-          this.temperatureService
-            .setCharacteristic(Characteristic.CurrentTemperature, roundInt(data.data.temperature));
-          this.temperatureService
-            .setCharacteristic(CustomCharacteristic.AtmosphericPressureLevel, roundInt(data.data.pressure));
-          this.humidityService
-            .setCharacteristic(Characteristic.CurrentRelativeHumidity, roundInt(data.data.humidity));
-
+            this.temperatureService
+                .setCharacteristic(Characteristic.CurrentTemperature, roundInt(data.data.temperature));
+            this.temperatureService
+                .setCharacteristic(CustomCharacteristic.AtmosphericPressureLevel, roundInt(data.data.pressure));
+            this.humidityService
+                .setCharacteristic(Characteristic.CurrentRelativeHumidity, roundInt(data.data.humidity));
+            const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
+            this.log(`airQuality = ${airQuality}`);
+            this.airQualityService.setCharacteristic(Characteristic.AirQuality, airQuality);
+            this.airQualityService.setCharacteristic(Characteristic.VOCDensity, roundInt(data.data.gas_resistance / 1000));
+          }
         })
         .catch(err => {
           this.log(`BME read error: ${err}`);
           debug(err.stack);
-          if (this.spreadsheetId) {
-            this.logger.storeBME(this.name, 1, -999, -999, -999);
-          }
-
         });
     } else {
       this.log("Error: BME680 Not Initalized");
@@ -127,10 +127,35 @@ class BME680Plugin {
   }
 
   getServices() {
-    return [this.informationService, this.temperatureService, this.humidityService, this.loggingService]
+    return [this.informationService, this.temperatureService, this.humidityService, this.airQualityService, this.loggingService]
   }
 }
 
 function roundInt(string) {
   return Math.round(parseFloat(string) * 10) / 10;
+}
+
+function computeIAQ(gas, humidity) {
+  const humidityWeight = 0.25;
+  let gasOffset = 50000 - gas;
+  let humidityOffset = humidity - 40;
+  let humidityScore = 0, gasScore = 0;
+
+  if(humidityOffset > 0) {
+    humidityScore = (100 - 40 - humidityOffset);
+    humidityScore /= (100 - 40);
+    humidityScore *= (humidityWeight * 100);
+  }else{
+    humidityScore = (40 + humidityOffset);
+    humidityScore /= 40;
+    humidityScore *= (humidityWeight * 100);
+  }
+
+  if(gasOffset > 0){
+    gasScore = (gas / 50000);
+    gasScore *= (100 - (humidityWeight * 100));
+  }else{
+    gasScore = 100 - (humidityWeight * 100);
+  }
+  return humidityScore + gasScore;
 }
