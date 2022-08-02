@@ -49,13 +49,16 @@ Example configuration:
     ]
 ```
 
-This plugin creates two services: TemperatureSensor and HumiditySensor.
+This plugin creates three services: TemperatureSensor, HumiditySensor and AirQualitySensor.
 
 ## See also
 
+* [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
+* [homebridge-bme280](https://www.npmjs.com/package/homebridge-bme280)
 * [homebridge-ds18b20](https://www.npmjs.com/package/homebridge-ds18b20)
 * [homebridge-dht-sensor](https://www.npmjs.com/package/homebridge-dht-sensor)
 * [homebridge-dht](https://www.npmjs.com/package/homebridge-dht)
+* [bme680-sensor-air-quality-algorithm](https://github.com/pimoroni/bme680-python/blob/master/examples/indoor-air-quality.py)
 
 ## Future plans
 - Add support for pressure sensor (this is already somewhat supported, but you can't see it in the Home app). Will try to get the Home+ 5 app which supposedly Pressure sensor displays

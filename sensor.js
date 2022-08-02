@@ -75,7 +75,6 @@ class BME680Plugin {
 				minValue: -100,
 				maxValue: 100
 			});
-		//        .on('get', this.getCurrentTemperature.bind(this));
 
 		this.temperatureService
 			.addCharacteristic(CustomCharacteristic.AtmosphericPressureLevel);
@@ -111,13 +110,13 @@ class BME680Plugin {
 						});
 
 						this.temperatureService
-							.setCharacteristic(Characteristic.CurrentTemperature, roundInt(data.data.temperature));
+							.updateCharacteristic(Characteristic.CurrentTemperature, roundInt(data.data.temperature));
 						this.temperatureService
-							.setCharacteristic(CustomCharacteristic.AtmosphericPressureLevel, roundInt(data.data.pressure));
+							.updateCharacteristic(CustomCharacteristic.AtmosphericPressureLevel, roundInt(data.data.pressure));
 						this.humidityService
-							.setCharacteristic(Characteristic.CurrentRelativeHumidity, roundInt(data.data.humidity));
+							.updateCharacteristic(Characteristic.CurrentRelativeHumidity, roundInt(data.data.humidity));
 						const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
-						this.airQualityService.setCharacteristic(Characteristic.AirQuality, airQuality);
+						this.airQualityService.updateCharacteristic(Characteristic.AirQuality, airQuality);
 					}
 				})
 				.catch(err => {

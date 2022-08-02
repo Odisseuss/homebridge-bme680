@@ -1,7 +1,7 @@
 {
   "name": "homebridge-bme680",
   "version": "1.1.1",
-  "description": "BME680 temperature/humidity/pressure sensor bridge for Homebridge: https://github.com/nfarina/homebridge\"",
+  "description": "BME680 temperature/humidity/pressure/air quality sensor bridge for Homebridge: https://homebridge.io/",
   "main": "sensor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,9 +16,10 @@
     "temperature",
     "humidity",
     "pressure",
+    "air quality",
     "sensor"
   ],
-  "author": "Odisseuss",
+  "author": "Rares Lungescu",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Odisseuss/homebridge-bme680/issues"
