@@ -101,21 +101,22 @@ class BME680Plugin {
 					if (data.data.heat_stable) {
 						this.log(`data(temp) = ${ JSON.stringify(data, null, 2) }`);
 
+                        const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
+
 						this.loggingService.addEntry({
 							time: moment().unix(),
 							temp: roundInt(data.data.temperature),
 							pressure: roundInt(data.data.pressure),
 							humidity: roundInt(data.data.humidity),
-							airQuality: roundInt(data.data.gas_resistance)
+							airQuality: airQuality
 						});
-
 						this.temperatureService
 							.updateCharacteristic(Characteristic.CurrentTemperature, roundInt(data.data.temperature));
 						this.temperatureService
 							.updateCharacteristic(CustomCharacteristic.AtmosphericPressureLevel, roundInt(data.data.pressure));
 						this.humidityService
 							.updateCharacteristic(Characteristic.CurrentRelativeHumidity, roundInt(data.data.humidity));
-						const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
+
 						this.airQualityService.updateCharacteristic(Characteristic.AirQuality, airQuality);
 					}
 				})
