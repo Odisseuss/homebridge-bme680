@@ -101,7 +101,7 @@ class BME680Plugin {
 					if (data.data.heat_stable) {
 						this.log(`data(temp) = ${ JSON.stringify(data, null, 2) }`);
 
-                        const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
+						const airQuality = computeIAQ(roundInt(data.data.gas_reistance), roundInt(data.data.humidity));
 
 						this.loggingService.addEntry({
 							time: moment().unix(),
