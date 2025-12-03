@@ -1,34 +1,39 @@
 # homebridge-bme680
 
+# IMPORTANT NOTICE
+
+The bme680-sensor package used to communicate with the chip has been archived and is now unmaintained. For now, this is the end of this plugin. Maybe after homebridge 2.0 releases i will take the time to write my own i2c communication with the chip so i can bring this project back to life.
+
 [![NPM Downloads](https://img.shields.io/npm/dm/homebridge-bme680.svg?style=flat)](https://npmjs.org/package/homebridge-bme680)
 
 [Bosch BME680](https://www.bosch-sensortec.com/bst/products/all_products/bme680)
 temperature/humidity/VOC/barometric pressure sensor service plugin for [Homebridge](https://github.com/nfarina/homebridge).
 
-
-* Display of temperature, humidity and air quality score from a BME680 connected to a RaspberryPI.
+- Display of temperature, humidity and air quality score from a BME680 connected to a RaspberryPI.
 
 Uses [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
 
 Uses the algorithm used by pimoroni in their [bme680-sensor-air-quality-example](https://github.com/pimoroni/bme680-python/blob/master/examples/indoor-air-quality.py) to compute the air quality score
 
 ## Installation
-1.	Install Homebridge using `npm install -g homebridge`
-2.	Install this plugin `npm install -g homebridge-bme680`
-3.	Update your configuration file - see below for an example
+
+1. Install Homebridge using `npm install -g homebridge`
+2. Install this plugin `npm install -g homebridge-bme680`
+3. Update your configuration file - see below for an example
 
 Connect the BME680 chip to the I2C bus
 
 Enable I2C on the RaspberryPI by going to the RaspberryPI's `RaspberryPi Configuration` page and checking the `Enable I2C` checkbox.
 
 ## Configuration
-* `accessory`: "BME680"
-* `name`: descriptive name
-* `name_temperature` (optional): descriptive name for the temperature sensor
-* `name_humidity` (optional): descriptive name for the humidity sensor
-* `name_air_quality` (optional): descriptive name for the air quality sensor
-* `refresh`: Optional, time interval for refreshing data in seconds, defaults to 60 seconds.
-* `options`: options for [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
+
+- `accessory`: "BME680"
+- `name`: descriptive name
+- `name_temperature` (optional): descriptive name for the temperature sensor
+- `name_humidity` (optional): descriptive name for the humidity sensor
+- `name_air_quality` (optional): descriptive name for the air quality sensor
+- `refresh`: Optional, time interval for refreshing data in seconds, defaults to 60 seconds.
+- `options`: options for [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
 
 If you get an I/O error, make sure the I2C address is correct (usually 0x76 or 0x77 depending on a jumper).
 
@@ -53,14 +58,15 @@ This plugin creates three services: TemperatureSensor, HumiditySensor and AirQua
 
 ## See also
 
-* [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
-* [homebridge-bme280](https://www.npmjs.com/package/homebridge-bme280)
-* [homebridge-ds18b20](https://www.npmjs.com/package/homebridge-ds18b20)
-* [homebridge-dht-sensor](https://www.npmjs.com/package/homebridge-dht-sensor)
-* [homebridge-dht](https://www.npmjs.com/package/homebridge-dht)
-* [bme680-sensor-air-quality-algorithm](https://github.com/pimoroni/bme680-python/blob/master/examples/indoor-air-quality.py)
+- [bme680-sensor](https://www.npmjs.com/package/bme680-sensor)
+- [homebridge-bme280](https://www.npmjs.com/package/homebridge-bme280)
+- [homebridge-ds18b20](https://www.npmjs.com/package/homebridge-ds18b20)
+- [homebridge-dht-sensor](https://www.npmjs.com/package/homebridge-dht-sensor)
+- [homebridge-dht](https://www.npmjs.com/package/homebridge-dht)
+- [bme680-sensor-air-quality-algorithm](https://github.com/pimoroni/bme680-python/blob/master/examples/indoor-air-quality.py)
 
 ## Future plans
+
 - Add support for pressure sensor (this is already somewhat supported, but you can't see it in the Home app). Will try to get the Home+ 5 app which supposedly Pressure sensor displays
 
 ## License
